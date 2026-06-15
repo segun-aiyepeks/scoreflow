@@ -1,0 +1,12 @@
+{
+  "name": "scoreflow",
+  "version": "1.0.0",
+  "description": "A mobile-first web application that allows Users to view livescores in football and basketball.",
+  "license": "ISC",
+  "author": "aiyepeks",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
