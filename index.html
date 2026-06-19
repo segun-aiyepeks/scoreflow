@@ -45,7 +45,48 @@
      <!-- M A I N   C O N T E N T -->
       <!--  -->
      <main class="container py-4">
-        <h1 class="text-white">Home Page - coming next steps</h1>
+        
+        <!-- Date Navigator -->
+         <div class="date-navigator mb-4" id="dateNavigator"> 
+            <!-- Filled by home.js -->
+         </div>
+
+         <!-- Favourite Section -->
+          <section id="favourites-section" class="d-none mb-4">
+            <div class="section-header text-uppercase">
+                <i class="bi bi-star-fill text-warning"></i>
+                <span>My Favourites</span>
+            </div>
+            <div id="favourites-screen"></div>
+          </section>
+
+          <!-- Live Now Section -->
+          <section class="mb-4">
+            <div id="live-header">
+                <!-- home.js renders this section with live count -->
+            </div>
+            <div id="live-container"></div>
+          </section>
+
+          <!-- Upcoming Section -->
+          <section class="mb-4">
+            <div id="upcoming-header"></div>
+            <div id="upcoming-container"></div>
+          </section>
+
+          <!-- Finished Section -->
+           <section class="mb-4">
+            <div class="section-header text-uppercase finished-toggle" role="button" tabindex="0" aria-controls="finishedCollapse" data-bs-toggle="collapse" data-bs-target="#finishedCollapse" aria-expanded="false">
+                <i class="bi bi-check-circle-fill text-secondary"></i>
+                <span id="finished-header-text">Finished</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </div>
+
+            <div class="collapse" id="finishedCollapse">
+                <div id="finished-container"></div>
+            </div>
+           </section>
+
      </main>
 
 
