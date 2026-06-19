@@ -49,7 +49,7 @@ const liveFootballMatches = [
     {
         id: 1001,
         sport: 'football',
-        status: live,
+        status: 'live',
         elapsed: 72,
         kickoff: '18:00',
         league: LEAGUES.EPL,
@@ -77,7 +77,7 @@ const liveFootballMatches = [
     {
         id: 1002,
         sport: 'football',
-        status: live,
+        status: 'live',
         elapsed: 45,
         kickoff: '18:30',
         league: LEAGUES.LA_LIGA,
@@ -104,7 +104,7 @@ const liveFootballMatches = [
     {
         id: 1003,
         sport: 'football',
-        status: live,
+        status: 'live',
         elapsed: 88,
         kickoff: '16:45',
         league: LEAGUES.UCL,
