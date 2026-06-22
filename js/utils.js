@@ -1,17 +1,28 @@
 //Get Status Badge
-function getStatusBadge(match){
-    if(match.status == 'live') {
-        const liveText = match.sport === 'football'? `${match.elapsed}'` : match.quarter;
-        return `<span class = "status-badge live> <span class = 'live-dot'></span></span>`;
-    }
-    if(match.status == 'upcoming') {
-        return `<span class = "status-badge upcoming"> ${match.kickoff}</span>`
-    }
+function getStatusBadge(match) {
+  if (match.status === 'live') {
+    const liveText = match.sport === 'football'
+      ? `${match.elapsed}'`
+      : match.quarter;
 
-    const finishedText = match.sport === 'football'? 'FT': 'FN';
-    return `<span class = 'status-badge finished'> ${finishedText}</span>`
+    return `
+      <span class="status-badge live">
+        <span class="live-dot"></span>
+        LIVE &nbsp;${liveText}
+      </span>`;
+  }
+
+  if (match.status === 'upcoming') {
+    return `
+      <span class="status-badge upcoming">
+        <i class="bi bi-clock" style="font-size:0.65rem"></i>
+        ${match.kickoff}
+      </span>`;
+  }
+
+  const finishedText = match.sport === 'football' ? 'FT' : 'FN';
+  return `<span class="status-badge finished">${finishedText}</span>`;
 }
-
 // Get Score Display
 function getScoreDisplay(match) {
     const homeScore = match.sport === 'basketball'? match.home.score.total: match.home.score;
@@ -23,24 +34,25 @@ function getScoreDisplay(match) {
     }
 
     return `<span id='score-home-${match.id}'> ${homeScore}</span>
-            <span class='text-muted mx-1'>-</span>
+            <span class='text-muted mx-2' style="font-size:1rem">-</span>
             <span id='score-away-${match.id}'>${awayScore}</span>
     `;
 }
 
 // Render Match Card
 function renderMatchCard(match) {
-    const liveClass = match.status === 'live'? 'is-Live':'';
+  const liveClass = match.status === 'live' ? 'is-live' : '';
+  const quarterRow = match.sport === 'basketball' ? renderQuarterScores(match) : '';
 
-    const quarterRow = match.sport === 'basketball'? renderQuarterScores(match): '';
-
-    return `  <div class="card match-card ${liveClass} mb-3"
+  return `
+    <div class="card match-card ${liveClass} mb-3"
          data-id="${match.id}"
          data-sport="${match.sport}">
       <div class="card-body py-2 px-3">
 
-        <!-- Top row: League name on left, status badge on right -->
+        <!-- Row 1: League name (left) + Status badge (right) -->
         <div class="d-flex justify-content-between align-items-center mb-2">
+
           <small class="text-muted d-flex align-items-center gap-1">
             <img
               src="${match.league.logo}"
@@ -51,14 +63,16 @@ function renderMatchCard(match) {
             />
             ${match.league.name}
           </small>
+
           ${getStatusBadge(match)}
+
         </div>
 
-        <!-- Middle row: Home team | Score | Away team -->
+        <!-- Row 2: Home team | Score | Away team (true 3-column layout) -->
         <div class="match-teams">
 
-          <!-- Home team -->
-          <div class="d-flex align-items-center gap-2" style="max-width:38%">
+          <!-- HOME: logo + name, left-aligned -->
+          <div class="team-col team-home">
             <img
               src="${match.home.logo}"
               alt="${match.home.name}"
@@ -68,44 +82,45 @@ function renderMatchCard(match) {
             <span class="team-name">${match.home.name}</span>
           </div>
 
-          <!-- Score or "vs" -->
-          <div class="score-display">
-            ${getScoreDisplay(match)}
+          <!-- SCORE: centred -->
+          <div class="score-col">
+            <div class="score-display">
+              ${getScoreDisplay(match)}
+            </div>
           </div>
 
-          <!-- Away team (reversed: name first, then logo) -->
-          <div class="d-flex align-items-center gap-2 flex-row-reverse" style="max-width:38%">
+          <!-- AWAY: name + logo, right-aligned (reversed order) -->
+          <div class="team-col team-away">
+            <span class="team-name text-end">${match.away.name}</span>
             <img
               src="${match.away.logo}"
               alt="${match.away.name}"
               class="team-logo"
               loading="lazy"
             />
-            <span class="team-name text-end">${match.away.name}</span>
           </div>
 
         </div>
 
-        <!-- Basketball quarter scores (empty string for football) -->
+        <!-- Basketball quarter scores -->
         ${quarterRow}
 
-        <!-- Bottom row: Details link + Favourite button -->
-        <div class="d-flex justify-content-end align-items-center gap-2 mt-2">
-          <a href="match-detail.html?id=${match.id}"
-             class="btn btn-sm btn-outline-secondary py-0 px-2"
-             style="font-size:0.75rem">
+        <!-- Row 3: Details link + Favourite button -->
+        <div class="d-flex justify-content-end align-items-center gap-2 mt-2 pt-2 card-footer-row">
+          <a href="match-detail.html?id=${match.id}" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size:0.75rem">
             Details →
           </a>
           <button
             class="btn-favourite ${isFavourite(match.id) ? 'saved' : ''}"
             onclick="toggleFavourite(${match.id}, this)"
-            aria-label="Save ${match.home.name} vs ${match.away.name} as favourite">
+            aria-label="Favourite">
             <i class="bi ${isFavourite(match.id) ? 'bi-heart-fill' : 'bi-heart'}"></i>
           </button>
         </div>
 
       </div>
-    </div>`
+    </div>
+  `;
 }
 
 // Render Quarter Scores

@@ -40,56 +40,108 @@ body {
 
 /* Match Cards */
 .match-card {
-    border: 1px solid var(--sf-card-border);
-    transition: var(--sf-transition);
-    cursor: pointer;
+  border: 1px solid var(--sf-card-border);
+  transition: var(--sf-transition);
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+.match-card .card-body {
+  padding: 0.75rem 1rem !important;
 }
 
 .match-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
+
+/* Green left stripe on live match cards */
 .match-card.is-live {
-    border-left: 3px solid var(--sf-live);
+  border-left: 3px solid var(--sf-live);
 }
+
+/* 
+  THE KEY LAYOUT FIX:
+  Three columns — home team | score | away team
+  Each team column gets flex:1 so they share space equally.
+  The score column is fixed width in the centre.
+*/
 .match-teams {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.25rem 0;
 }
+
+/* Each team column takes equal space */
+.team-col {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0;  /* Allows text truncation to work inside flex */
+}
+
+/* Away team: align to the right edge */
+.team-away {
+  justify-content: flex-end;
+}
+
+/* Score sits in the centre, fixed width so it never shrinks */
+.score-col {
+  flex: 0 0 auto;
+  min-width: 80px;
+  text-align: center;
+}
+
+/* Team name — truncate if too long */
 .team-name {
-    font-size: 0.95rem;
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 38%;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
 }
+
+/* Team logo */
 .team-logo {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  flex-shrink: 0; /* Logo never squishes */
 }
 
-/* Score Display */
+/* Subtle divider above the Details/Favourite row */
+.card-footer-row {
+  border-top: 1px solid var(--sf-card-border);
+}
+
+
+/* ── 5. Score Display ──────────────────────────────── */
+
 .score-display {
-    font-size: 1.6rem;
-    font-weight: 700;
-    min-width: 80px;
-    text-align: center;
-    font-variant-numeric: tabular-nums;
-}
-.score-hero {
-    font-size: 3.5rem;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-}
-.score-updated {
-    animation: score-flash 1s ease-out;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  letter-spacing: -0.5px;
 }
 
+.score-hero {
+  font-size: 3.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-updated {
+  animation: score-flash 1s ease-out;
+}
 /* Status Badges */
 .status-badge {
     font-size: 0.7rem;
